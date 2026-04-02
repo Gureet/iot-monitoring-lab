@@ -20,3 +20,4 @@ data/pcap/baseline_20260402_115654.pcap
 data/pcap/baseline_20260402_135642.pcap
 data/pcap/baseline_20260402_140228.pcap
 data/pcap/baseline_20260402_141051.pcap
+data/logs/devices/collector.jsonl

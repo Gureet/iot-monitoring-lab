@@ -1,6 +1,5 @@
 import json
 import time
-from pathlib import Path
 from collections import defaultdict, deque
 import paho.mqtt.client as mqtt
 
@@ -24,16 +23,12 @@ IMPERSONATION_WINDOW = 5
 IMPERSONATION_THRESHOLD = 3
 SESSION_RESET_AFTER = 5
 
-# Adaptive baseline
+# New: adaptive baseline
 TEMP_DEVIATION_THRESHOLD = 20
 TEMP_HISTORY_SIZE = 20
 
 ALERT_COOLDOWN = 3
 ATTACK_ACTIVE_HOLD = 5
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-ALERT_LOG_PATH = BASE_DIR / "monitor" / "alerts.log"
-TRUSTED_DEVICES_PATH = BASE_DIR / "trusted_devices.json"
 
 message_times = defaultdict(deque)
 last_alert_time = defaultdict(float)
@@ -59,7 +54,7 @@ BOLD = "\033[1m"
 
 def load_trusted_devices():
     try:
-        with open(TRUSTED_DEVICES_PATH, "r", encoding="utf-8") as f:
+        with open("trusted_devices.json", "r", encoding="utf-8") as f:
             data = json.load(f)
         return set(data.keys())
     except Exception:
@@ -87,19 +82,6 @@ def alert(msg):
 
 def success(msg):
     print(f"{GREEN}{BOLD}{msg}{RESET}")
-
-
-def write_alert_log(alert_type, device_id, message, extra=None):
-    ALERT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    record = {
-        "ts": time.time(),
-        "alert_type": alert_type,
-        "device_id": device_id,
-        "message": message,
-        "extra": extra or {}
-    }
-    with open(ALERT_LOG_PATH, "a", encoding="utf-8") as f:
-        f.write(json.dumps(record) + "\n")
 
 
 def mark_attack_active(now, duration=ATTACK_ACTIVE_HOLD):
@@ -181,7 +163,6 @@ def on_connect(client, userdata, flags, rc, properties=None):
     client.subscribe(TOPIC)
     info(f"[INFO] Subscribed to {TOPIC}")
     info(f"[INFO] Trusted devices loaded: {sorted(TRUSTED_DEVICES)}")
-    info(f"[INFO] Alert log path: {ALERT_LOG_PATH}")
 
 
 def on_message(client, userdata, msg):
@@ -213,35 +194,21 @@ def on_message(client, userdata, msg):
 
     suspicious_this_message = False
 
-    # Unknown / rogue device detection
+    # New: Unknown / rogue device detection
     if device_id not in TRUSTED_DEVICES:
         suspicious_this_message = True
         if should_alert(f"unknown:{device_id}", now):
             mark_attack_active(now)
-            msg_text = f"[ALERT] Unknown device detected: {device_id}"
-            alert(msg_text)
-            write_alert_log(
-                "unknown_device",
-                device_id,
-                msg_text,
-                {"topic": msg.topic}
-            )
+            alert(f"[ALERT] Unknown device detected: {device_id}")
 
     # Attack 1: Flood
     if rate > RATE_THRESHOLD:
         suspicious_this_message = True
         if should_alert(f"flood:{device_id}", now):
             mark_attack_active(now)
-            msg_text = (
+            alert(
                 f"[ALERT] Flood detected: {device_id} exceeded threshold "
                 f"with {rate} msgs in the last 1s"
-            )
-            alert(msg_text)
-            write_alert_log(
-                "flood",
-                device_id,
-                msg_text,
-                {"rate": rate, "threshold": RATE_THRESHOLD}
             )
 
     # Attack 2: Big payload
@@ -249,16 +216,9 @@ def on_message(client, userdata, msg):
         suspicious_this_message = True
         if should_alert(f"payload:{device_id}", now):
             mark_attack_active(now)
-            msg_text = f"[ALERT] Big payload detected: {device_id} payload size {payload_size} bytes"
-            alert(msg_text)
-            write_alert_log(
-                "big_payload",
-                device_id,
-                msg_text,
-                {"payload_size": payload_size, "threshold": PAYLOAD_THRESHOLD}
-            )
+            alert(f"[ALERT] Big payload detected: {device_id} payload size {payload_size} bytes")
 
-    # Attack 3: Trusted-device impersonation / anomaly
+    # Attack 3: Trusted-device impersonation + adaptive behavior anomaly
     if device_id in TRUSTED_DEVICES:
         abnormal_indicators = []
 
@@ -295,22 +255,11 @@ def on_message(client, userdata, msg):
                 impersonation_session_counts[device_id] += 1
                 mark_attack_active(now)
 
-                msg_text = (
+                alert(
                     f"[ALERT] Impersonation suspected for {device_id}: "
                     f"{len(abnormal_times[device_id])} abnormal readings within {IMPERSONATION_WINDOW}s"
                 )
-                alert(msg_text)
                 print_impersonation_summary()
-                write_alert_log(
-                    "impersonation",
-                    device_id,
-                    msg_text,
-                    {
-                        "abnormal_count": len(abnormal_times[device_id]),
-                        "window_seconds": IMPERSONATION_WINDOW,
-                        "indicators": abnormal_indicators
-                    }
-                )
         else:
             prune_abnormal(device_id, now)
             update_temp_baseline(device_id, temp)
@@ -323,7 +272,6 @@ def on_message(client, userdata, msg):
 
 
 def main():
-    ALERT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
     client.on_connect = on_connect
     client.on_message = on_message

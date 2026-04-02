@@ -1,0 +1,9 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	known_services
+#open	2026-04-02-11-56-58
+#fields	ts	host	port_num	port_proto	service
+#types	time	addr	port	enum	set[string]
+1775131018.548143	172.18.0.2	1883	tcp	MQTT

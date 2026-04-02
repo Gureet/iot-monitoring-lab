@@ -1,0 +1,39 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	dns
+#open	2026-04-02-11-56-56
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	trans_id	rtt	query	qclass	qclass_name	qtype	qtype_name	rcode	rcode_name	AA	TC	RD	RA	Z	answers	TTLs	rejected	opcode	opcode_name
+#types	time	string	addr	port	addr	port	enum	count	interval	string	count	string	count	string	count	string	bool	bool	bool	bool	count	vector[string]	vector[interval]	bool	count	string
+1775131015.831106	CavWE22bwuEaqdhBLb	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	0.458886	iot-monitoring-lab.local	1	C_INTERNET	255	*	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,fe80::108b:c1ff:fe33:f739	120.000000,120.000000	F	0	query
+1775131015.797951	CtsYQh3xKaI33kyu02	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	0.913904	_ipp._tcp.local	1	C_INTERNET	12	PTR	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,fe80::4c55:d9ff:fe33:4ccc	120.000000,120.000000	F	0	query
+1775131016.089022	CavWE22bwuEaqdhBLb	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	1.323087	iot-monitoring-lab.local	1	C_INTERNET	255	*	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,fe80::108b:c1ff:fe33:f739	120.000000,120.000000	F	0	query
+1775131017.799791	CtsYQh3xKaI33kyu02	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	1.034004	_ipp._tcp.local	1	C_INTERNET	12	PTR	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,fe80::4c55:d9ff:fe33:4ccc	120.000000,120.000000	F	0	query
+1775131016.502264	CwNWot1cQBFFKkjc8l	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,172.18.0.1	120.000000,120.000000	F	0	query
+1775131016.501329	CavWE22bwuEaqdhBLb	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	3.034626	_ipp._tcp.local	1	C_INTERNET	12	PTR	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,fe80::108b:c1ff:fe33:f739	120.000000,120.000000	F	0	query
+1775131016.711783	CwNWot1cQBFFKkjc8l	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,fe80::4c55:d9ff:fe33:4ccc	120.000000,120.000000	F	0	query
+1775131018.833714	CwNWot1cQBFFKkjc8l	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	c.c.c.4.3.3.e.f.f.f.9.d.5.5.c.4.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa	-	-	-	-	0	NOERROR	T	F	F	F	0	iot-monitoring-lab.local,fe80::4c55:d9ff:fe33:4ccc	120.000000,120.000000	F	0	query
+1775131018.497001	CavWE22bwuEaqdhBLb	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131022.506307	CavWE22bwuEaqdhBLb	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131030.505913	CavWE22bwuEaqdhBLb	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131043.498456	CXI4YW3lLoyNcGAcS6	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131021.798934	CtsYQh3xKaI33kyu02	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131029.801105	CtsYQh3xKaI33kyu02	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131045.803354	CtsYQh3xKaI33kyu02	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131046.516368	CE5WQ84QGWfQoV6Ud9	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131075.512937	CG1kk81WYOERpvRvsj	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131077.807326	C9UxZHEdJLPvBEWu2	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131078.525413	CY8kNY1of9LKTMAQ9l	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131139.521341	C7WcfA3F42oHuTrEMj	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131141.809907	C7yrQz1Yd632wTDvt8	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131142.532525	CCsVYA3QPUA86qkUHg	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131267.527239	CLcNP34SobDTT2Yy3f	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131269.811105	CvzXj33YT9rQ3JYN18	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131270.534136	CMnDU44vEEGIKR2ZSj	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131523.539178	C8wfnb1y8gwKN6Tyyc	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131525.821747	CsWKc51GluaueDR4If	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775131526.539580	Cqn1bm21e0p597xBRe	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775132035.562744	C6T2Tq4pu1Udkw90Tj	172.18.0.1	5353	224.0.0.251	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775132037.821476	CcWQqU2kSls7QEf7l	fe80::4c55:d9ff:fe33:4ccc	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query
+1775132038.549762	CIWf131wbguHlXlALk	fe80::108b:c1ff:fe33:f739	5353	ff02::fb	5353	udp	0	-	_ipp._tcp.local	1	C_INTERNET	12	PTR	-	-	F	F	F	F	0	-	-	F	0	query

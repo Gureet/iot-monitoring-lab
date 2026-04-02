@@ -1,0 +1,80 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    ports:
+      - "1883:1883" # "port on VM : port inside container"
+    volumes:
+      - ./configs/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./data/logs/mqtt:/mosquitto/log
+      - ./data/mosquitto-data:/mosquitto/data # persistent data saved (survices restarts)
+    networks: [iotnet] # connect broker to the private lab network
+
+  collector: # build a custom Docker image from collector/ (Dockerfile + python code)
+    build: ./collector
+    container_name: collector
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - TOPIC=iot/+/telemetry # subscribe to iot/+/telemetry to collects telemetry from all devices (+ means any device id)
+      - OUTFILE=/logs/collector.jsonl
+    volumes:
+      - ./data/logs/devices:/logs # output becomes: /data/logs/devices/collector.jsonl (for plotting/ offline analysis)
+    depends_on: [mosquitto] # ensure broker starts before collector starts
+    networks: [iotnet]
+
+  device1: # run Python device simulator; publish telemetry to iot/device-1/telementry
+    build: ./devices
+    container_name: device1
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - DEVICE_ID=device-1
+      - BASE_INTERVAL=3.0 # create realistic timing: BASE_INTERVAL ~ average period
+      - JITTER=1.0 # JITTER ~ random variation around it
+    depends_on: [mosquitto]
+    networks: [iotnet]
+
+  device2:
+    build: ./devices
+    container_name: device2
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - DEVICE_ID=device-2
+      - BASE_INTERVAL=5.0 # slower than device1
+      - JITTER=1.5 # more jitter than device1
+    depends_on: [mosquitto]
+    networks: [iotnet]
+
+  zeek:
+    image: zeek/zeek:latest
+    container_name: zeek
+    network_mode: "service:mosquitto"
+    cap_add: [NET_ADMIN, NET_RAW] # capture raw packets; network operations required by sniffers
+    command: > # run zeek on eth0; config is local.zeek; 'tail' keeps container alive after zeek starts
+      sh -lc "mkdir -p /usr/local/zeek/logs/current && /usr/local/zeek/bin/zeek -i eth0 -C -e 'redef Log::default_logdir=\"/usr/local/zeek/logs/current\";' local.zeek"
+    volumes:
+      - ./configs/zeek/local.zeek:/usr/local/zeek/share/site/local.zeek:ro
+      - ./data/logs/zeek:/usr/local/zeek/logs/current # zeek will generate files: conn.log, dns.log, http.log (if DNS/ HTTP traffic exists)
+    depends_on: [mosquitto]
+
+  tcpdump:
+    image: corfr/tcpdump
+    container_name: tcpdump
+    network_mode: "service:mosquitto"
+    cap_add: [NET_ADMIN, NET_RAW]
+    volumes:
+      - ./monitor/capture.sh:/capture.sh:ro
+      - ./data/pcap:/data/pcap # write to ./data/pcap/baseline.pcap
+    environment:
+      - IFACE=eth0
+      - OUTDIR=/data/pcap
+    entrypoint: ["/bin/sh", "/capture.sh"]
+    depends_on: [mosquitto]
+
+networks: # Docker creates an isolated virtual network where containers can talk to each other, get private IPs
+  iotnet:
+    driver: bridge
+
+

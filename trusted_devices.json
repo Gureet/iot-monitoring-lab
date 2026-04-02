@@ -1,0 +1,4 @@
+{
+  "device-1": {"location": "room1", "type": "sensor"},
+  "device-2": {"location": "room2", "type": "sensor"}
+}

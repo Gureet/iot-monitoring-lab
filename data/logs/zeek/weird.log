@@ -1,0 +1,11 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	weird
+#open	2026-04-02-12-05-41
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	name	addl	notice	peer	source
+#types	time	string	addr	port	addr	port	string	string	bool	string	string
+1775131541.385763	CqZXYt1tzpJH5A7ed4	172.18.0.1	35890	172.18.0.2	1883	truncated_tcp_payload	-	F	zeek	TCP
+1775131541.386082	C3yTmSAJYEtvryQ8a	172.18.0.3	55929	172.18.0.2	1883	truncated_tcp_payload	-	F	zeek	TCP
+1775131541.386456	CiYROV3J8PDiAERj4j	172.18.0.1	33036	172.18.0.2	1883	truncated_tcp_payload	-	F	zeek	TCP

@@ -1,0 +1,9 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	analyzer
+#open	2026-04-02-12-05-41
+#fields	ts	analyzer_kind	analyzer_name	uid	fuid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	failure_reason	failure_data
+#types	time	string	string	string	string	addr	port	addr	port	enum	string	string
+1775131541.386183	protocol	MQTT	CiYROV3J8PDiAERj4j	-	172.18.0.1	33036	172.18.0.2	1883	tcp	Binpac exception: binpac exception: out_of_bound: MQTT_PDU:command: 50073 > 7240	-

@@ -1,0 +1,11 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	mqtt_subscribe
+#open	2026-04-02-11-57-03
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	action	topics	qos_levels	granted_qos_level	ack
+#types	time	string	addr	port	addr	port	enum	vector[string]	vector[count]	count	bool
+1775131023.268587	Cgksws4IDHm2kWh48d	172.18.0.1	48014	172.18.0.2	1883	MQTT::SUBSCRIBE	iot/+/telemetry	0	0	T
+1775131525.211338	CiYROV3J8PDiAERj4j	172.18.0.1	33036	172.18.0.2	1883	MQTT::SUBSCRIBE	iot/+/telemetry	0	0	T
+1775131677.470972	CzqLWtYCtNAogyHK6	172.18.0.1	56224	172.18.0.2	1883	MQTT::SUBSCRIBE	iot/+/telemetry	0	0	T

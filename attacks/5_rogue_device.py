@@ -11,6 +11,13 @@ ROGUE_DEVICES = [
     "rogue-device-100",
     "rogue-device-101",
     "rogue-sensor-x",
+    "device-1",
+    "rogue-device-102",
+    "rogue-device-103",
+    "rogue-device-104",
+    "rogue-sensor-y",
+    "rogue-device-z",
+    "rogue-device-105",   
 ]
 
 def run_rogue(device_id, interval=1.0):

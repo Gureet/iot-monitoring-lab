@@ -1,25 +1,49 @@
 import json
 import time
+import threading
 import paho.mqtt.client as mqtt
 
 BROKER = "localhost"
 PORT = 1883
-DEVICE_ID = "rogue-device-99"
-TOPIC = f"iot/{DEVICE_ID}/telemetry"
 
-client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
-client.connect(BROKER, PORT, 60)
-client.loop_start()
+ROGUE_DEVICES = [
+    "rogue-device-99",
+    "rogue-device-100",
+    "rogue-device-101",
+    "rogue-sensor-x",
+]
 
-print(f"[INFO] Starting rogue device attack: {DEVICE_ID}")
+def run_rogue(device_id, interval=1.0):
+    topic = f"iot/{device_id}/telemetry"
 
-while True:
-    payload = {
-        "device_id": DEVICE_ID,
-        "ts": time.time(),
-        "temp": 999,
-        "humidity": 999,
-        "status": "rogue"
-    }
-    client.publish(TOPIC, json.dumps(payload))
-    time.sleep(1)
+    client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
+    client.connect(BROKER, PORT, 60)
+    client.loop_start()
+
+    print(f"[INFO] Rogue device started: {device_id}")
+
+    while True:
+        payload = {
+            "device_id": device_id,
+            "ts": time.time(),
+            "temp": 999,
+            "humidity": 999,
+            "status": "rogue"
+        }
+        client.publish(topic, json.dumps(payload))
+        time.sleep(interval)
+
+
+threads = []
+for dev in ROGUE_DEVICES:
+    t = threading.Thread(target=run_rogue, args=(dev, 1.0), daemon=True)
+    t.start()
+    threads.append(t)
+
+print("[INFO] Multiple rogue devices are publishing. Press Ctrl+C to stop.")
+
+try:
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    print("\n[INFO] Stopped rogue-device attack.")

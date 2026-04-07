@@ -1,4 +1,5 @@
 import json
+import random
 import time
 import threading
 import paho.mqtt.client as mqtt
@@ -33,8 +34,8 @@ def run_rogue(device_id, interval=1.0):
         payload = {
             "device_id": device_id,
             "ts": time.time(),
-            "temp": 999,
-            "humidity": 999,
+            "temp": round(random.uniform(120, 150), 2),
+            "humidity": round(random.uniform(120, 150), 2),
             "status": "rogue"
         }
         client.publish(topic, json.dumps(payload))

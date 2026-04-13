@@ -2,6 +2,7 @@
 
 ## Architecture Diagram
 ########################################
+
 IoT devices
  |
 MQTT Broker (Mosquitto)
@@ -14,6 +15,7 @@ Plots + Alerts
 
 * Network Monitoring:
 Devices -> Broker -> tcpdump -> Zeek
+
 #######################################
 
 ## Start Lab
@@ -26,6 +28,7 @@ Port: 1883
 Topic: iot/+/telemetry
 
 Payload is JSON like:
+
 {"device_id":"device-1","ts":...,"temp":...,"humidity":...,"status":"ok"}
 
 ## Logs available for analysis

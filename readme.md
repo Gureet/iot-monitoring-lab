@@ -1,25 +1,5 @@
 # IoT Monitoring Lab
 
-## Architecture Diagram
-* Application pipeline:
-
-IoT devices
- |
- 
-MQTT Broker (Mosquitto)
- |
- 
-Collector (JSON logs)
- |
- 
-Monitoring App (Python)
- |
-Plots + Alerts
-
-* Network Monitoring:
-Devices -> Broker -> tcpdump -> Zeek
-
-
 ## Start Lab
 cd ~/iot-monitoring-lab
 

@@ -40,3 +40,20 @@
   3. rate spike:
     + If device-1 normally publishes every ~3s but suddenly publishes every 0.5s: msg/sec threshold exceeded.
 
+# Scenario 4: Rogue Device Injection (Unauthorized Devices)
+- An attacker introduces unauthorized devices into the system by publishing to MQTT topics with unknown device IDs, so:
+  + the broker accepts messages without authentication (no access control)
+  + fake devices can send arbitrary telemetry
+  + monitoring app may detect unknown IDs, abnormal values, or unusual device activity
+- In the lab, rogue devices use IDs like rogue-device-*, rogue-sensor-*, and publish to iot/<device_id>/telemetry.
+- Execute: python3 4_rogue_device.py
+  + multiple fake devices publish simultaneously
+  + extreme values (e.g., temp=999, humidity=999)
+  + sudden appearance of many new device IDs
+- Detection rules:
+1. unknown device detection:
+  + device_id not in trusted_devices.json → alert
+2. abnormal values:
+  + unrealistic sensor values (e.g., temp=999) → anomaly
+3. device explosion:
+  + sudden increase in number of active devices → suspicious
